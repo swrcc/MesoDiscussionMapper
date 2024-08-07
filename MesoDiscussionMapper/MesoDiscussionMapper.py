@@ -217,12 +217,12 @@ for x, y, label in zip(gdf_cities.geometry.x, gdf_cities.geometry.y, gdf_cities[
 ###############################
 
 #overlay the SWRCC logo
-logo = SWRCC_logo.resize((300, 300))
+logo = SWRCC_logo.resize((225, 225))
 logo_width, logo_height = logo.size
 # Define the position to overlay the logo (bottom-right corner)
 map_width, map_height = plt.gcf().get_size_inches()*plt.gcf().dpi
-x_pos = 250  # 10 pixels from the right edge
-y_pos = 1160  # 10 pixels from the bottom edge
+x_pos = 265
+y_pos = 1220
 # Convert the logo image to an array and overlay it on the map
 logo_array = np.array(logo)
 # Add the logo to the plot
