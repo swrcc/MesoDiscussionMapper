@@ -1,5 +1,9 @@
 '''
-This python script maps the Mesoscale Discussions and Precipitation Discussions from the 
+TITLE: MesoDiscussionMapper
+UPDATED: August 7, 2024
+AUTHOR: Ethan Burwell
+
+ABOUT: This python script maps the Mesoscale Discussions and Precipitation Discussions from the 
 Weather Prediction Center and Storm Prediction Center. It plots the areas outlined in the
 discussions over a map of New York and then adds the current radar. 
 
