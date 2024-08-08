@@ -1,5 +1,5 @@
 TITLE: MesoDiscussionMapper
-UPDATED: August 7, 2024
+UPDATED: August 8, 2024
 AUTHOR: Ethan Burwell
 
 ABOUT: This python script maps the Mesoscale Discussions and Precipitation Discussions from the 
@@ -13,7 +13,7 @@ in the MappingElements folder:
 - NYS Shorline.shp
 - NYS Interstates.shp
 - NYS Interstates.shp
-- NYS_cities.csv (this csv can be edited locally to modify the cities that are included as desired)
+- NYS Cities.shp
 - NYS Counties.shp
 - US StatesCoastlines.shp
 - World Countries.shp
