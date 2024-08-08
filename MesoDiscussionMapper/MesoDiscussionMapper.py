@@ -1,6 +1,6 @@
 '''
 TITLE: MesoDiscussionMapper
-UPDATED: August 7, 2024
+UPDATED: August 8, 2024
 AUTHOR: Ethan Burwell
 
 ABOUT: This python script maps the Mesoscale Discussions and Precipitation Discussions from the 
@@ -14,7 +14,7 @@ in the MappingElements folder:
 - NYS Shorline.shp
 - NYS Interstates.shp
 - NYS Interstates.shp
-- NYS_cities.csv (this csv can be edited locally to modify the cities that are included as desired)
+- NYS Cities.shp
 - NYS Counties.shp
 - US StatesCoastlines.shp
 - World Countries.shp
@@ -50,7 +50,7 @@ mapping_elements_dir = os.path.join(script_dir, 'MappingElements')
 swrcc_logo_path = os.path.join(mapping_elements_dir, 'SWRCC_Logo_Transparent.png')
 nys_border_path = os.path.join(mapping_elements_dir, 'NYS Shorline.shp')
 nys_interstates_path = os.path.join(mapping_elements_dir, 'NYS Interstates.shp')
-nys_cities_path = os.path.join(mapping_elements_dir, 'NYS_cities.csv')
+nys_cities_path = os.path.join(mapping_elements_dir, 'NYS Cities.shp')
 nys_counties_path = os.path.join(mapping_elements_dir, 'NYS Counties.shp')
 us_states_path = os.path.join(mapping_elements_dir, 'US StatesCoastlines.shp')
 world_countries_path = os.path.join(mapping_elements_dir, 'World Countries.shp')
@@ -60,7 +60,7 @@ SWRCC_logo = Image.open(swrcc_logo_path)
 border = gpd.read_file(nys_border_path)
 interstates = gpd.read_file(nys_interstates_path)
 interstates2 = gpd.read_file(nys_interstates_path)
-cities = pd.read_csv(nys_cities_path)
+cities = gpd.read_file(nys_cities_path)
 counties = gpd.read_file(nys_counties_path)
 states = gpd.read_file(us_states_path)
 countries = gpd.read_file(world_countries_path)
@@ -89,6 +89,7 @@ while True:
         print('ERROR: Invalid input. Enter "y" if using a direct link to the Meso/Precip Discussion; enter "n" if not using a direct link.')
         continue
 
+
 coords = []
 coordinates = []
 
@@ -104,7 +105,6 @@ countries.plot(ax=ax, edgecolor='white', facecolor='black', alpha=1, linewidth=0
 states.plot(ax=ax, edgecolor='white', facecolor='none', alpha=0.5, linewidth=0.25)
 counties.plot(ax=ax, edgecolor='white', facecolor='black', alpha=0.5, linewidth=0.50)
 border.plot(ax=ax, edgecolor='white', facecolor='none', alpha=1, linewidth=1, zorder=9)
-gdf_cities = gpd.GeoDataFrame(cities, geometry=gpd.points_from_xy(cities.Longitude, cities.Latitude)) #geodataframe for csv cities
 
 ###############################
 # RETREIVING AND PLOTTING THE RADAR
@@ -208,11 +208,10 @@ polygon_gdf2 = gpd.GeoDataFrame(index=[0], geometry=[polygon], crs="EPSG:4326")
 # Plot the polygon on top of the shapefiles and radar
 polygon_gdf.plot(ax=ax, edgecolor='yellow', facecolor='yellow', alpha=0.25, linewidth=2, zorder=10)
 polygon_gdf2.plot(ax=ax, edgecolor='yellow', facecolor='none', alpha=1, linewidth=3, zorder=10)
-# Plot cities and annotate city names
-gdf_cities.plot(ax=ax, color='white', edgecolor="black", markersize=30, zorder=10)
-for x, y, label in zip(gdf_cities.geometry.x, gdf_cities.geometry.y, gdf_cities['City']):
-    text = ax.text(x, y-0.15, label, color='white', fontsize=8, fontweight="normal", horizontalalignment='center', verticalalignment ="center", rotation=0, zorder=10)
-    # Apply buffer color path effects
+# Plot cities
+cities.plot(ax=ax, facecolor='white', edgecolor='black', alpha = 1, zorder=11)
+for x, y, label in zip(cities.geometry.x, cities.geometry.y, cities['City']):  
+    text = ax.text(x+0.06, y, label, color='white', fontsize=8, fontweight="bold", ha='left', va='center', zorder=12)
     text.set_path_effects([path_effects.Stroke(linewidth=2, foreground='black'), path_effects.Normal()])
 
 
@@ -221,12 +220,12 @@ for x, y, label in zip(gdf_cities.geometry.x, gdf_cities.geometry.y, gdf_cities[
 ###############################
 
 #overlay the SWRCC logo
-logo = SWRCC_logo.resize((225, 225))
+logo = SWRCC_logo.resize((250, 250))
 logo_width, logo_height = logo.size
 # Define the position to overlay the logo (bottom-right corner)
 map_width, map_height = plt.gcf().get_size_inches()*plt.gcf().dpi
-x_pos = 265
-y_pos = 1220
+x_pos = 275
+y_pos = 1350
 # Convert the logo image to an array and overlay it on the map
 logo_array = np.array(logo)
 # Add the logo to the plot
@@ -315,11 +314,7 @@ ax.set_facecolor('#001177')
 plt.title("Discussion Focus Area", fontsize=20)
 ax.set_xticks([])
 ax.set_yticks([])
-#Entire State
+#Entire State Lat/Lon
 plt.xlim(-80.3,-71.8)
 plt.ylim(40.3,45.4)
-#New York City
-#plt.xlim(-75,-72)
-#plt.ylim(40,42)
-# Show the plot
 plt.show()
